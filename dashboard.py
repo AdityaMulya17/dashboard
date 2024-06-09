@@ -67,13 +67,15 @@ sns.barplot(
     y= mean_PM25_per_hour,
     x= 'hour',
     data=airquality_hour_df,
-    palette=colors_
+    palette=colors_,
+    ax=ax
 )
 ax.title("Kualitas udara perjam berdasarkan parameter PM2.5", loc="center", fontsize=15)
-ax.ylabel(None)
-ax.xlabel(None)
+ax.set_ylabel(None)
+ax.set_xlabel(None)
 ax.tick_params(axis='x', labelsize=12)
-ax.show()
+ax.tick_params(axis='y', labelsize=12)
+
 
 st.pyplot(fig)
 
@@ -89,13 +91,15 @@ sns.barplot(
     y= mean_PM25_per_year,
     x= 'year',
     data=airquality_year_df,
-    palette=colors_
+    palette=colors_,
+    ax=ax
 )
 ax.title("Rata-rata Kualitas udara pertahun berdasarkan parameter PM2.5", loc="center", fontsize=15)
 ax.ylabel(None)
 ax.xlabel(None)
 ax.tick_params(axis='x', labelsize=12)
-ax.show()
+ax.tick_params(axis='y', labelsize=12)
+
 
 st.pyplot(fig)
 
