@@ -38,7 +38,7 @@ max_date = changping_df["date"].max()
  
 with st.sidebar:
     # Menambahkan logo perusahaan
-    st.image("nautilus logo white.png")
+    st.image("C:\belajar dicoding\ml\dashboard\nautilus logo white.png.png")
     
     # Mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
