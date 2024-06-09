@@ -5,25 +5,10 @@ import streamlit as st
 from babel.numbers import format_currency
 sns.set(style='dark')
 
-def create_airquality_hour_df(df):
-    airquality_hour_df = changping_df.groupby(by="hour").agg({
-        "PM2.5": ["max", "min", "mean", "std"],
-    })
-    airquality_hour_df = airquality_hour_df.reset_index()  
-    
-    return airquality_hour_df
-
-
-def create_airquality_year_df(df):
-    airquality_year_df = changping_df.groupby(by="year").agg({
-        "PM2.5": ["max", "min", "mean", "std"],
-    })
-    airquality_year_df = airquality_year_df.reset_index()  
-    
-    return airquality_year_df
-
-
 changping_df = pd.read_csv("changping.csv")
+
+changping_df['date'] = pd.to_datetime(changping_df[['year', 'month', 'day']])
+
 
 
 datetime_columns = ["date"]
@@ -37,8 +22,6 @@ min_date = changping_df["date"].min()
 max_date = changping_df["date"].max()
  
 with st.sidebar:
-    # Menambahkan logo perusahaan
-    st.image("C:\belajar dicoding\ml\dashboard\nautilus logo white.png")
     
     # Mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
@@ -47,63 +30,78 @@ with st.sidebar:
         value=[min_date, max_date]
     )
 
+
+st.header('Kualitas Udara di Kota Changping :sparkles:')
+
 main_df = changping_df[(changping_df["date"] >= str(start_date)) & 
                 (changping_df["date"] <= str(end_date))]
 
-airquality_hour_df = create_airquality_hour_df(main_df)
-airquality_year_df = create_airquality_year_df(main_df)
+st.subheader('Kualitas udara tahunan berdasarkan berbagai parameter ')
 
+Tahun_df = main_df.groupby("year").mean(numeric_only=True)
 
-st.subheader('Kualitas udara dalam perjam kota Changping')
-fig, ax = plt.subplots(figsize=(20, 10))
-mean_PM25_per_hour = airquality_hour_df['PM2.5']['mean']
-plt.figure(figsize=(10, 5))
-
-colors_ = ["#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3","#D3D3D3","#72BCD4", "#D3D3D3", "#D3D3D3", "#D3D3D3", 
-           "#D3D3D3","#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3","#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3",
-           "#72BCD4", "#D3D3D3", "#D3D3D3"]
-
-sns.barplot(
-    y= mean_PM25_per_hour,
-    x= 'hour',
-    data=airquality_hour_df,
-    palette=colors_,
-    ax=ax
-)
-ax.set_title("Kualitas udara perjam berdasarkan parameter PM2.5", loc="center", fontsize=15)
-ax.set_ylabel(None)
-ax.set_xlabel(None)
-ax.tick_params(axis='x', labelsize=12)
-ax.tick_params(axis='y', labelsize=12)
-
-
+fig = plt.figure(figsize=(10,6))
+plt.plot(Tahun_df.index, Tahun_df["PM2.5"], label="PM2.5")
+plt.xlabel("Tahun")
+plt.ylabel("Konsentrasi Kualitas Udara(microgram/m3)")
+plt.legend()
 st.pyplot(fig)
 
 
-st.subheader('Kualitas udara dalam pertahun kota Changping')
-fig, ax = plt.subplots(figsize=(20, 10))
-mean_PM25_per_year = airquality_year_df['PM2.5']['mean']
-plt.figure(figsize=(10, 5))
+Tahun_df = main_df.groupby("year").mean(numeric_only=True)
 
-colors_ = ["#D3D3D3", "#D3D3D3", "#D3D3D3","#72BCD4", "#72BCD4", ]
-
-sns.barplot(
-    y= mean_PM25_per_year,
-    x= 'year',
-    data=airquality_year_df,
-    palette=colors_,
-    ax=ax
-)
-ax.set_title("Rata-rata Kualitas udara pertahun berdasarkan parameter PM2.5", loc="center", fontsize=15)
-ax.set_ylabel(None)
-ax.set_xlabel(None)
-ax.tick_params(axis='x', labelsize=12)
-ax.tick_params(axis='y', labelsize=12)
-
-
+fig = plt.figure(figsize=(10,6))
+plt.plot(Tahun_df.index, Tahun_df["PM10"], label="PM10")
+plt.xlabel("Tahun")
+plt.ylabel("Konsentrasi Kualitas Udara(microgram/m3)")
+plt.legend()
 st.pyplot(fig)
 
-st.caption('Copyright (c) aditya 2023')
+
+Tahun_df = main_df.groupby("year").mean(numeric_only=True)
+
+fig = plt.figure(figsize=(10,6))
+plt.plot(Tahun_df.index, Tahun_df["SO2"], label="SO2")
+plt.xlabel("Tahun")
+plt.ylabel("Konsentrasi Kualitas Udara(microgram/m3)")
+plt.legend()
+st.pyplot(fig)
+
+Tahun_df = main_df.groupby("year").mean(numeric_only=True)
+
+fig = plt.figure(figsize=(10,6))
+plt.plot(Tahun_df.index, Tahun_df["CO"], label="CO")
+plt.xlabel("Tahun")
+plt.ylabel("Konsentrasi Kualitas Udara(microgram/m3)")
+plt.legend()
+st.pyplot(fig)
+
+st.subheader('Kualitas udara PERBULAN berdasarkan berbagai parameter ')
 
 
+Bulan_df = main_df.groupby("month").mean(numeric_only=True)
 
+fig = plt.figure(figsize=(10,6))
+plt.plot(Tahun_df.index, Tahun_df["CO"], label="CO")
+plt.xlabel("Bulan")
+plt.ylabel("Konsentrasi Kualitas Udara(microgram/m3)")
+plt.legend()
+st.pyplot(fig)
+
+Bulan_df = main_df.groupby("month").mean(numeric_only=True)
+
+fig = plt.figure(figsize=(10,6))
+plt.plot(Tahun_df.index, Tahun_df["PM2.5"], label="PM2.5")
+plt.xlabel("Bulan")
+plt.ylabel("Konsentrasi Kualitas Udara(microgram/m3)")
+plt.legend()
+st.pyplot(fig)
+
+Bulan_df = main_df.groupby("month").mean(numeric_only=True)
+
+fig = plt.figure(figsize=(10,6))
+plt.plot(Tahun_df.index, Tahun_df["PM10"], label="PM10")
+plt.xlabel("Bulan")
+plt.ylabel("Konsentrasi Kualitas Udara(microgram/m3)")
+plt.legend()
+st.pyplot(fig)
