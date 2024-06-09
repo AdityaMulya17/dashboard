@@ -70,7 +70,7 @@ sns.barplot(
     palette=colors_,
     ax=ax
 )
-ax.title("Kualitas udara perjam berdasarkan parameter PM2.5", loc="center", fontsize=15)
+ax.set_title("Kualitas udara perjam berdasarkan parameter PM2.5", loc="center", fontsize=15)
 ax.set_ylabel(None)
 ax.set_xlabel(None)
 ax.tick_params(axis='x', labelsize=12)
@@ -94,9 +94,9 @@ sns.barplot(
     palette=colors_,
     ax=ax
 )
-ax.title("Rata-rata Kualitas udara pertahun berdasarkan parameter PM2.5", loc="center", fontsize=15)
-ax.ylabel(None)
-ax.xlabel(None)
+ax.set_title("Rata-rata Kualitas udara pertahun berdasarkan parameter PM2.5", loc="center", fontsize=15)
+ax.set_ylabel(None)
+ax.set_xlabel(None)
 ax.tick_params(axis='x', labelsize=12)
 ax.tick_params(axis='y', labelsize=12)
 
