@@ -53,6 +53,9 @@ main_df = changping_df[(changping_df["date"] >= str(start_date)) &
 airquality_hour_df = create_airquality_hour_df(main_df)
 airquality_year_df = create_airquality_year_df(main_df)
 
+
+st.subheader('Kualitas udara dalam perjam kota Changping')
+fig, ax = plt.subplots(figsize=(20, 10))
 mean_PM25_per_hour = airquality_hour_df['PM2.5']['mean']
 plt.figure(figsize=(10, 5))
 
@@ -72,6 +75,11 @@ plt.xlabel(None)
 plt.tick_params(axis='x', labelsize=12)
 plt.show()
 
+st.pyplot(fig)
+
+
+st.subheader('Kualitas udara dalam pertahun kota Changping')
+fig, ax = plt.subplots(figsize=(20, 10))
 mean_PM25_per_year = airquality_year_df['PM2.5']['mean']
 plt.figure(figsize=(10, 5))
 
@@ -88,6 +96,9 @@ plt.ylabel(None)
 plt.xlabel(None)
 plt.tick_params(axis='x', labelsize=12)
 plt.show()
+
+st.pyplot(fig)
+
 
 
 
