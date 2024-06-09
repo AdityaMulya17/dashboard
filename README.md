@@ -1,5 +1,12 @@
 ### Proyek Anlisis Data Kualitas Udara
 
+# Struktur Proyek
+```
+/dashboard : Streamlit dashboard
+/data : dataset AQI
+Proyek_Analisis_Data.ipnyb 
+```
+
 # Setup environment
 ```
 conda create --name main-ds python=3.9
